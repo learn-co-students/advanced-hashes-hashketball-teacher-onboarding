@@ -114,3 +114,50 @@ def game_hash
   }
 }
 end
+
+def just_the_players
+  return game_hash[:home][:players].merge(game_hash[:away][:players])
+end
+
+def num_points_scored(player_name)
+  all_players = just_the_players
+  return all_players.fetch(player_name)[:points]
+end
+
+def shoe_size(player_name)
+  all_players = just_the_players
+  return all_players.fetch(player_name)[:shoe]
+end
+
+def teams
+  return game_hash.values
+end
+
+def find_team(team_name)
+  return teams.find { |team| team.fetch(:team_name) == team_name }
+end
+
+def team_colors(input_team)
+  team = find_team(input_team)
+  return team.fetch(:colors)
+end
+
+def team_names
+  teams.map{ |team| team.fetch(:team_name) }
+end
+
+def player_numbers(input_team)
+  find_team(input_team)[:players].map { |player, attribute| attribute[:number] }
+end
+
+def player_stats(input_player)
+  just_the_players[input_player]
+end
+
+def player_with_biggest_shoe_size
+  just_the_players.max_by{|player, values| values.fetch(:shoe)}[1]
+end
+
+def big_shoe_rebounds
+  player_with_biggest_shoe_size[:rebounds]
+end
