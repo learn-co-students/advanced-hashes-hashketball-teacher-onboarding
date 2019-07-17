@@ -61,7 +61,7 @@ def game_hash
     },
     away: {
       team_name: "Charlotte Hornets",
-      colors: ["Torquoise", "Purple"],
+      colors: ["Turquoise", "Purple"],
       players: {
         "Jeff Adrien" => {
           number: 4,
@@ -140,11 +140,58 @@ def num_points_scored(player_name)
   game_hash.each do |location, team_data|
     team_data.each do |attribute, data|
       if attribute == :players
-        binding.pry
-        return attribute[player_name][:points]
+        if data.keys.include?(player_name)
+          return data[player_name][:points]
+        end
       end
     end
   end
 end
 
-num_points_scored("Ben Gordon")
+def shoe_size(player_name)
+  game_hash.each do |location, team_data|
+    team_data.each do |attribute, data|
+      if attribute == :players
+        if data.keys.include?(player_name)
+          return data[player_name][:shoe]
+        end
+      end
+    end
+  end
+end
+
+def team_colors(team_name)
+  game_hash.each do |location, team_data|
+    team_data.each do |attribute, data|
+      if attribute == :team_name && team_data[:team_name] == team_name
+        return team_data[:colors]
+      end
+    end
+  end
+end
+
+def team_names
+  team_name_array = []
+  game_hash.each do |location, team_data|
+    team_data.each do |attribute, data|
+      if attribute == :team_name
+        team_name_array.push(team_data[:team_name])
+      end
+    end
+  end
+  return team_name_array
+end
+
+def player_numbers(team_name)
+  player_numbers = []
+  game_hash.each do |location, team_data|
+    if team_data[:team_name] == team_name
+      team_data[:players].each do | player |
+        # binding.pry
+        player_numbers.push(player[1][:number])
+      end
+    end
+  end
+end
+
+# player_numbers("Brooklyn Nets")
